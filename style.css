@@ -1,0 +1,455 @@
+:root {
+    --bg-color: #f8fafc; /* Very light slate background */
+    --surface-color: #ffffff;
+    --primary-color: #3b82f6; /* Soft modern blue */
+    --secondary-color: #10b981; /* Soft green */
+    --error-color: #ef4444; /* Soft red */
+    --text-primary: #1e293b;
+    --text-secondary: #64748b;
+    --border-color: #e2e8f0;
+    --glass-bg: rgba(255, 255, 255, 0.9);
+    --glass-border: rgba(255, 255, 255, 0.3);
+    --shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.05); /* Soft deep shadow */
+}
+
+body.no-scroll {
+    overflow: hidden;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 2rem;
+    overflow-x: hidden;
+}
+
+.app-container {
+    width: 100%;
+    max-width: 1100px; /* Much wider for less cramped look */
+    background-color: var(--surface-color);
+    border-radius: 24px;
+    box-shadow: var(--shadow);
+    padding: 3rem; /* More generous padding */
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 2px solid var(--border-color); /* Thicker separator */
+}
+
+.app-title {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 2.8rem;
+    color: var(--text-primary);
+    letter-spacing: 1px;
+}
+
+.controls {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.file-upload-wrapper input[type="file"] {
+    display: none;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+    font-family: inherit;
+}
+
+.btn svg {
+    width: 18px;
+    height: 18px;
+}
+
+.primary-btn {
+    background-color: var(--primary-color);
+    color: #fff;
+}
+
+.primary-btn:hover:not(:disabled) {
+    background-color: #004494;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 86, 179, 0.2);
+}
+
+.secondary-btn {
+    background-color: var(--secondary-color);
+    color: #fff;
+}
+
+.secondary-btn:hover {
+    background-color: #006666;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 128, 128, 0.2);
+}
+
+.outline-btn {
+    background-color: transparent;
+    border: 2px solid var(--border-color); /* Thicker border */
+    color: var(--text-secondary);
+}
+
+.outline-btn:hover:not(:disabled) {
+    border-color: var(--text-primary);
+    color: var(--text-primary);
+    background-color: var(--bg-color); /* Slight background fill on hover */
+}
+
+.btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.icon-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.icon-btn:hover {
+    color: var(--error-color);
+}
+
+.table-container {
+    overflow-x: auto;
+    border-radius: 16px;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    background: #ffffff;
+}
+
+th, td {
+    padding: 1.2rem 1.5rem; /* More generous cell padding */
+    border-bottom: 1px solid var(--border-color);
+    font-size: 1rem;
+}
+
+th {
+    background-color: #f8fafc; /* Very light slate */
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+tr:hover td {
+    background-color: #f1f5f9; /* Subtle hover state */
+}
+
+.empty-state td {
+    text-align: center;
+    color: var(--text-secondary);
+    padding: 4rem 1rem; /* More vertical space for empty state */
+    font-size: 1.1rem;
+}
+
+/* Modal / Timer Window */
+.glass-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Center it on screen */
+    width: 65vw; /* 65% of screen width */
+    max-width: 1200px;
+    background: rgba(255, 255, 255, 0.95); /* Clean white frosted glass */
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(0, 0, 0, 0.08); /* Subtle dark border instead of white */
+    border-radius: 32px; /* Smoother curve for larger box */
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.12); /* Softer neutral shadow */
+    z-index: 1000;
+    cursor: default;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    color: var(--text-primary);
+}
+
+.glass-modal.hidden {
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-50%, -40%); /* Slightly drop when hidden */
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem 3rem; /* Hugely increased padding */
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    cursor: move; /* Indicate draggable */
+    background: rgba(0, 0, 0, 0.02); /* Slight highlight */
+    border-top-left-radius: 32px;
+    border-top-right-radius: 32px;
+}
+
+.modal-header span {
+    font-weight: 700;
+    font-size: 1.8rem;
+    color: var(--text-primary);
+}
+
+.modal-header button {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 50%;
+    transition: background 0.2s, color 0.2s;
+}
+
+.modal-header button:hover {
+    background: rgba(0,0,0,0.05);
+    color: var(--error-color);
+}
+
+.modal-body {
+    padding: 4rem 2rem; /* Big padding */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.time-inputs {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.input-group input {
+    width: 180px; /* Massive inputs */
+    height: 180px;
+    background: #ffffff; 
+    border: 3px solid var(--border-color);
+    border-radius: 24px;
+    color: var(--text-primary);
+    font-size: 6rem;
+    text-align: center;
+    font-family: inherit;
+    font-variant-numeric: tabular-nums; /* FIX: Stops text vibration during typing/countdown */
+    font-weight: 700;
+    transition: all 0.2s;
+    box-shadow: inset 0 2px 8px rgba(0,0,0,0.02);
+}
+
+.input-group input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 6px rgba(59, 130, 246, 0.15);
+    background: #ffffff;
+}
+
+.input-group label {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-top: 1rem;
+}
+
+.colon {
+    font-size: 6rem;
+    font-weight: bold;
+    color: var(--text-primary);
+    margin-top: -50px;
+    margin-left: 1rem;
+    margin-right: 1rem;
+}
+
+.time-display {
+    font-family: inherit;
+    font-variant-numeric: tabular-nums; /* FIX: Stops text vibration by using fixed-width numbers */
+    font-size: 9rem; /* Giant clock text */
+    font-weight: 800;
+    letter-spacing: 2px;
+    color: var(--primary-color); /* Make countdown pop on white */
+    text-shadow: 0 8px 20px rgba(59, 130, 246, 0.15);
+    transition: color 0.3s ease;
+    margin: 2rem 0;
+}
+
+/* Stopwatch Overtime State */
+.timer-danger {
+    color: var(--error-color) !important;
+    text-shadow: 0 0 30px rgba(239, 68, 68, 0.25) !important;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+    100% { transform: scale(1); }
+}
+
+.modal-controls {
+    display: flex;
+    gap: 1.5rem; /* Wider gap between main buttons */
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap; /* Allows wrapping if narrow */
+}
+
+.modal-controls .btn {
+    padding: 1.2rem 2.5rem;
+    font-size: 1.4rem;
+    border-radius: 12px;
+}
+
+.modal-controls .primary-btn {
+    background-color: var(--primary-color);
+    color: #fff;
+    border: none;
+}
+
+.modal-controls .primary-btn:hover:not(:disabled) {
+    background-color: #2563eb;
+    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.3);
+}
+
+.modal-controls .outline-btn {
+    border-color: var(--border-color);
+    color: var(--text-secondary);
+}
+
+.modal-controls .outline-btn:hover:not(:disabled) {
+    background-color: var(--bg-color);
+    border-color: var(--text-primary);
+    color: var(--text-primary);
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #c0c0c0;
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #a0a0a0;
+}
+
+/* Row Menu */
+.menu-container {
+    position: relative;
+    display: inline-block;
+}
+
+.menu-toggle-btn {
+    font-size: 1.5rem;
+    padding: 0 0.5rem;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    transition: color 0.2s;
+}
+
+.menu-toggle-btn:hover {
+    color: var(--text-primary);
+}
+
+.menu-popup {
+    position: absolute;
+    right: 0;
+    top: 100%;
+    background: var(--surface-color);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    z-index: 100;
+    min-width: 120px;
+    overflow: hidden;
+}
+
+.menu-popup.hidden {
+    display: none;
+}
+
+.delete-name-btn, .rerecord-name-btn {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    text-align: left;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: 500;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.delete-name-btn {
+    color: var(--error-color);
+    border-bottom: none;
+}
+
+.rerecord-name-btn {
+    color: var(--primary-color);
+}
+
+.delete-name-btn:hover {
+    background: rgba(239, 68, 68, 0.05); /* Match new red */
+}
+
+.rerecord-name-btn:hover {
+    background: rgba(59, 130, 246, 0.05);
+}

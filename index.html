@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Name Randomizer & Timer</title>
+    <!-- SheetJS for reading Excel files -->
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.0/package/dist/xlsx.full.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <!-- Modern Sans Serif for UI + Aesthetic Serif/Display for 'THINK INDIA' -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <header>
+            <h1 class="app-title">THINK INDIA</h1>
+            <div class="controls">
+                <div class="file-upload-wrapper">
+                    <input type="file" id="excel-file" accept=".xlsx, .xls, .csv">
+                    <label for="excel-file" class="btn primary-btn" id="upload-label">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+                        Upload Excel
+                    </label>
+                </div>
+                <!-- Randomize button -->
+                <button id="randomize-btn" class="btn outline-btn" disabled>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></svg>
+                    Randomize
+                </button>
+                <!-- Export button -->
+                <button id="export-btn" class="btn outline-btn" disabled>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+                    Export
+                </button>
+                <button id="timer-toggle-btn" class="btn secondary-btn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                    Toggle Timer
+                </button>
+            </div>
+        </header>
+
+        <main>
+            <div class="table-container">
+                <table id="names-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Recorded Time</th>
+                            <th>Action</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="names-body">
+                        <!-- Rows injected by JS -->
+                        <tr class="empty-state">
+                            <td colspan="5">Upload an Excel file to see randomized names here.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <!-- Floating Timer Modal -->
+    <div id="timer-modal" class="glass-modal hidden">
+        <div class="modal-header" id="modal-drag-handle">
+            <span>Timer / Stopwatch</span>
+            <button id="close-timer" class="icon-btn">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div class="time-inputs" id="time-inputs">
+                <div class="input-group">
+                    <input type="number" id="input-minutes" min="0" value="0" placeholder="MM">
+                    <label>Min</label>
+                </div>
+                <span class="colon">:</span>
+                <div class="input-group">
+                    <input type="number" id="input-seconds" min="0" max="59" value="0" placeholder="SS">
+                    <label>Sec</label>
+                </div>
+            </div>
+            
+            <div class="time-display hidden" id="time-display">00:00.00</div>
+            <!-- Controls for Timer -->
+            <div class="modal-controls" style="margin-bottom: 2rem;">
+                <button id="start-btn" class="btn primary-btn">Start</button>
+                <button id="stop-btn" class="btn secondary-btn hidden">Stop</button>
+                <button id="reset-btn" class="btn outline-btn">Reset</button>
+            </div>
+            
+            <!-- Record Button for current active contestant -->
+            <div class="modal-controls">
+                <button id="modal-record-btn" class="btn" style="background-color: #8b5cf6; color: white; width: 100%; max-width: 400px; font-weight: 700; box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);" disabled>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 24px; height: 24px; margin-right: 8px; vertical-align: middle;"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><path d="M17 21v-8H7v8M7 3v5h8"/></svg>
+                    Record & Close
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
